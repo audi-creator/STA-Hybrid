@@ -1,4 +1,346 @@
-<div class="tabs">
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>STA Quick Reference Guide</title> <style> * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #f8f9fa;
+        color: #2F4A56;
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #2F4A56 0%, #5B7C99 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+    
+    .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+    }
+    
+    /* Tab Navigation */
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        background: white;
+        border: 3px solid #5B7C99;
+        color: #2F4A56;
+        padding: 15px 30px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: all 0.3s;
+        flex: 1;
+        min-width: 200px;
+    }
+    
+    .tab-button:hover {
+        background: #E8EEF2;
+        transform: translateY(-2px);
+    }
+    
+    .tab-button.active {
+        background: #5B7C99;
+        color: white;
+    }
+    
+    .tab-content {
+        display: none;
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Decision Tree Styles */
+    .decision-tree {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+    
+    .decision-node {
+        background: white;
+        border: 3px solid #5B7C99;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 600px;
+        text-align: center;
+    }
+    
+    .decision-question {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #2F4A56;
+        margin-bottom: 20px;
+    }
+    
+    .decision-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .decision-btn {
+        background: #5B7C99;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 1.1em;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .decision-btn:hover {
+        background: #2F4A56;
+        transform: scale(1.05);
+    }
+    
+    .result-box {
+        background: #E8EEF2;
+        border-left: 5px solid #5B7C99;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+        display: none;
+    }
+    
+    .result-box.show {
+        display: block;
+        animation: slideIn 0.3s;
+    }
+    
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .result-box h3 {
+        color: #2F4A56;
+        margin-bottom: 10px;
+        font-size: 1.4em;
+    }
+    
+    .result-box ul {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+    
+    .result-box li {
+        margin: 8px 0;
+        font-size: 1.05em;
+    }
+    
+    /* Accordion Styles */
+    .accordion {
+        margin: 20px 0;
+    }
+    
+    .accordion-item {
+        background: white;
+        border: 2px solid #5B7C99;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+    
+    .accordion-header {
+        background: #5B7C99;
+        color: white;
+        padding: 20px;
+        cursor: pointer;
+        font-size: 1.2em;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s;
+    }
+    
+    .accordion-header:hover {
+        background: #2F4A56;
+    }
+    
+    .accordion-header::after {
+        content: '+';
+        font-size: 1.5em;
+        transition: transform 0.3s;
+    }
+    
+    .accordion-header.active::after {
+        transform: rotate(45deg);
+    }
+    
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding: 0 20px;
+    }
+    
+    .accordion-content.active {
+        max-height: 1000px;
+        padding: 20px;
+    }
+    
+    /* Checklist Styles */
+    .checklist {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+    
+    .checklist-item {
+        background: white;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border-left: 5px solid #5B7C99;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .checklist-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .checklist-item input[type="checkbox"] {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }
+    
+    .checklist-item label {
+        cursor: pointer;
+        font-size: 1.1em;
+        flex: 1;
+    }
+    
+    /* Alert Box */
+    .alert {
+        background: #d9534f;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .alert::before {
+        content: '⚠️';
+        font-size: 2em;
+    }
+    
+    /* Info Box */
+    .info-box {
+        background: #E8EEF2;
+        border-left: 5px solid #5B7C99;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+    }
+    
+    .info-box strong {
+        color: #2F4A56;
+        font-size: 1.2em;
+    }
+    
+    /* Comparison Cards */
+    .comparison {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+    
+    .comparison-card {
+        background: white;
+        border: 3px solid #5B7C99;
+        border-radius: 10px;
+        padding: 25px;
+        text-align: center;
+    }
+    
+    .comparison-card h3 {
+        color: #2F4A56;
+        margin-bottom: 15px;
+        font-size: 1.4em;
+    }
+    
+    .comparison-card ul {
+        text-align: left;
+        margin-left: 20px;
+    }
+    
+    .comparison-card li {
+        margin: 10px 0;
+    }
+    
+    .icon {
+        font-size: 3em;
+        margin-bottom: 10px;
+    }
+    
+    .reset-btn {
+        background: #2F4A56;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 1em;
+    }
+    
+    .reset-btn:hover {
+        background: #5B7C99;
+    }
+</style>
+</head> <body> <div class="container"> <div class="header"> <h1>📋 STA Quick Reference Guide</h1> <p>Your interactive guide to Steno Tech Assistant responsibilities</p> </div>
+    <div class="tabs">
         <button class="tab-button active" onclick="openTab('overview')">🎯 Role Overview</button>
         <button class="tab-button" onclick="openTab('differences')">🔄 Key Differences</button>
         <button class="tab-button" onclick="openTab('hybrid')">🏢 Hybrid Jobs</button>
@@ -367,3 +709,4 @@
         hideAllResults();
     }
 </script>
+</body> </html>
