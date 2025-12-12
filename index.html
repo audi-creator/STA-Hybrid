@@ -1,712 +1,800 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>STA Quick Reference Guide</title> <style> * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-        font-family: 'Arial', sans-serif;
-        background: #f8f9fa;
-        color: #2F4A56;
-        line-height: 1.6;
-    }
-    
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    
-    .header {
-        background: linear-gradient(135deg, #2F4A56 0%, #5B7C99 100%);
-        color: white;
-        padding: 40px;
-        border-radius: 15px;
-        text-align: center;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .header h1 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
-    }
-    
-    .header p {
-        font-size: 1.2em;
-        opacity: 0.9;
-    }
-    
-    /* Tab Navigation */
-    .tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
-    }
-    
-    .tab-button {
-        background: white;
-        border: 3px solid #5B7C99;
-        color: #2F4A56;
-        padding: 15px 30px;
-        font-size: 1.1em;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 10px;
-        transition: all 0.3s;
-        flex: 1;
-        min-width: 200px;
-    }
-    
-    .tab-button:hover {
-        background: #E8EEF2;
-        transform: translateY(-2px);
-    }
-    
-    .tab-button.active {
-        background: #5B7C99;
-        color: white;
-    }
-    
-    .tab-content {
-        display: none;
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .tab-content.active {
-        display: block;
-        animation: fadeIn 0.3s;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Decision Tree Styles */
-    .decision-tree {
-        background: #f8f9fa;
-        padding: 30px;
-        border-radius: 10px;
-        margin: 20px 0;
-    }
-    
-    .decision-node {
-        background: white;
-        border: 3px solid #5B7C99;
-        border-radius: 10px;
-        padding: 20px;
-        margin: 20px auto;
-        max-width: 600px;
-        text-align: center;
-    }
-    
-    .decision-question {
-        font-size: 1.3em;
-        font-weight: bold;
-        color: #2F4A56;
-        margin-bottom: 20px;
-    }
-    
-    .decision-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-    
-    .decision-btn {
-        background: #5B7C99;
-        color: white;
-        border: none;
-        padding: 15px 30px;
-        font-size: 1.1em;
-        font-weight: bold;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    .decision-btn:hover {
-        background: #2F4A56;
-        transform: scale(1.05);
-    }
-    
-    .result-box {
-        background: #E8EEF2;
-        border-left: 5px solid #5B7C99;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 5px;
-        display: none;
-    }
-    
-    .result-box.show {
-        display: block;
-        animation: slideIn 0.3s;
-    }
-    
-    @keyframes slideIn {
-        from { opacity: 0; transform: translateX(-20px); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    
-    .result-box h3 {
-        color: #2F4A56;
-        margin-bottom: 10px;
-        font-size: 1.4em;
-    }
-    
-    .result-box ul {
-        margin-left: 20px;
-        margin-top: 10px;
-    }
-    
-    .result-box li {
-        margin: 8px 0;
-        font-size: 1.05em;
-    }
-    
-    /* Accordion Styles */
-    .accordion {
-        margin: 20px 0;
-    }
-    
-    .accordion-item {
-        background: white;
-        border: 2px solid #5B7C99;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        overflow: hidden;
-    }
-    
-    .accordion-header {
-        background: #5B7C99;
-        color: white;
-        padding: 20px;
-        cursor: pointer;
-        font-size: 1.2em;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: background 0.3s;
-    }
-    
-    .accordion-header:hover {
-        background: #2F4A56;
-    }
-    
-    .accordion-header::after {
-        content: '+';
-        font-size: 1.5em;
-        transition: transform 0.3s;
-    }
-    
-    .accordion-header.active::after {
-        transform: rotate(45deg);
-    }
-    
-    .accordion-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-        padding: 0 20px;
-    }
-    
-    .accordion-content.active {
-        max-height: 1000px;
-        padding: 20px;
-    }
-    
-    /* Checklist Styles */
-    .checklist {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-    }
-    
-    .checklist-item {
-        background: white;
-        padding: 15px;
-        margin: 10px 0;
-        border-radius: 8px;
-        border-left: 5px solid #5B7C99;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    
-    .checklist-item:hover {
-        transform: translateX(5px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    .checklist-item input[type="checkbox"] {
-        width: 25px;
-        height: 25px;
-        cursor: pointer;
-    }
-    
-    .checklist-item label {
-        cursor: pointer;
-        font-size: 1.1em;
-        flex: 1;
-    }
-    
-    /* Alert Box */
-    .alert {
-        background: #d9534f;
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    
-    .alert::before {
-        content: '⚠️';
-        font-size: 2em;
-    }
-    
-    /* Info Box */
-    .info-box {
-        background: #E8EEF2;
-        border-left: 5px solid #5B7C99;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 5px;
-    }
-    
-    .info-box strong {
-        color: #2F4A56;
-        font-size: 1.2em;
-    }
-    
-    /* Comparison Cards */
-    .comparison {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        margin: 20px 0;
-    }
-    
-    .comparison-card {
-        background: white;
-        border: 3px solid #5B7C99;
-        border-radius: 10px;
-        padding: 25px;
-        text-align: center;
-    }
-    
-    .comparison-card h3 {
-        color: #2F4A56;
-        margin-bottom: 15px;
-        font-size: 1.4em;
-    }
-    
-    .comparison-card ul {
-        text-align: left;
-        margin-left: 20px;
-    }
-    
-    .comparison-card li {
-        margin: 10px 0;
-    }
-    
-    .icon {
-        font-size: 3em;
-        margin-bottom: 10px;
-    }
-    
-    .reset-btn {
-        background: #2F4A56;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 15px;
-        font-size: 1em;
-    }
-    
-    .reset-btn:hover {
-        background: #5B7C99;
-    }
-</style>
-</head> <body> <div class="container"> <div class="header"> <h1>📋 STA Quick Reference Guide</h1> <p>Your interactive guide to Steno Tech Assistant responsibilities</p> </div>
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab('overview')">🎯 Role Overview</button>
-        <button class="tab-button" onclick="openTab('differences')">🔄 Key Differences</button>
-        <button class="tab-button" onclick="openTab('hybrid')">🏢 Hybrid Jobs</button>
-        <button class="tab-button" onclick="openTab('checklist')">✅ Quick Checklist</button>
-    </div>
-    
-    <!-- Tab 1: Role Overview -->
-    <div id="overview" class="tab-content active">
-        <h2>What is a Steno Tech Assistant (STA)?</h2>
-        <p style="font-size: 1.1em; margin: 20px 0;">A Steno Tech Assistant provides technical support for depositions where video recording is not the primary focus. Your role centers on ensuring smooth technical operation, participant assistance, and supporting the Court Reporter.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STA Quick Reference Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-        <div class="info-box">
-            <strong>When You'll Be Assigned as an STA:</strong>
-            <ul style="margin-top: 10px;">
-                <li>A video product is <strong>NOT</strong> ordered (client receives transcript only)</li>
-                <li>The job is on <strong>Zoom with the Steno Connect App</strong> AND the attorney hasn't completed a Demo OR has requested assistance</li>
-                <li>The job is a <strong>hybrid job or has a 3rd party videographer involved</strong></li>
-            </ul>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            color: #2F4A56;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2F4A56 0%, #5B7C99 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: white;
+            border: 3px solid #5B7C99;
+            color: #2F4A56;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .tab-button:hover {
+            background: #E8EEF2;
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: #5B7C99;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Decision Tree Styles */
+        .decision-tree {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .decision-node {
+            background: white;
+            border: 3px solid #5B7C99;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .decision-question {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2F4A56;
+            margin-bottom: 20px;
+        }
+        
+        .decision-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .decision-btn {
+            background: #5B7C99;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .decision-btn:hover {
+            background: #2F4A56;
+            transform: scale(1.05);
+        }
+        
+        .result-box {
+            background: #E8EEF2;
+            border-left: 5px solid #5B7C99;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .result-box.show {
+            display: block;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .result-box h3 {
+            color: #2F4A56;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+        
+        .result-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .result-box li {
+            margin: 8px 0;
+            font-size: 1.05em;
+        }
+        
+        /* Accordion Styles */
+        .accordion {
+            margin: 20px 0;
+        }
+        
+        .accordion-item {
+            background: white;
+            border: 2px solid #5B7C99;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background: #5B7C99;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .accordion-header:hover {
+            background: #2F4A56;
+        }
+        
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .accordion-header.active::after {
+            transform: rotate(45deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 20px;
+        }
+        
+        .accordion-content.active {
+            max-height: 1000px;
+            padding: 20px;
+        }
+        
+        /* Checklist Styles */
+        .checklist {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 5px solid #5B7C99;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+        
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 1.1em;
+            flex: 1;
+        }
+        
+        /* Alert Box */
+        .alert {
+            background: #d9534f;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .alert::before {
+            content: '⚠️';
+            font-size: 2em;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: #E8EEF2;
+            border-left: 5px solid #5B7C99;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .info-box strong {
+            color: #2F4A56;
+            font-size: 1.2em;
+        }
+        
+        /* Comparison Cards */
+        .comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            border: 3px solid #5B7C99;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .comparison-card h3 {
+            color: #2F4A56;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .comparison-card ul {
+            text-align: left;
+            margin-left: 20px;
+        }
+        
+        .comparison-card li {
+            margin: 10px 0;
+        }
+        
+        .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .reset-btn {
+            background: #2F4A56;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1em;
+        }
+        
+        .reset-btn:hover {
+            background: #5B7C99;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 STA Quick Reference Guide</h1>
+            <p>Your interactive guide to Steno Tech Assistant responsibilities</p>
         </div>
         
-        <div class="info-box" style="margin-top: 20px;">
-            <strong>⚠️ REA + STA Role:</strong>
-            <p style="margin-top: 10px;">If you're assigned as both REA (Remote Exhibit Assistant) AND STA, you'll stay for the entire deposition. Your responsibilities include showing exhibits and monitoring technical issues throughout, but you do NOT fulfill video job requirements.</p>
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('overview')">🎯 Role Overview</button>
+            <button class="tab-button" onclick="openTab('differences')">🔄 Key Differences</button>
+            <button class="tab-button" onclick="openTab('hybrid')">🏢 Hybrid Jobs</button>
+            <button class="tab-button" onclick="openTab('checklist')">✅ Quick Checklist</button>
         </div>
         
-        <h3 style="margin-top: 30px; color: #2F4A56;">Your Core Responsibilities</h3>
-        <div class="accordion">
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    🛠️ Technical Support
-                </div>
-                <div class="accordion-content">
-                    <p>Address any technical issues as participants join the room. Ensure everyone can hear and see clearly.</p>
-                </div>
+        <!-- Tab 1: Role Overview -->
+        <div id="overview" class="tab-content active">
+            <h2>What is a Steno Tech Assistant (STA)?</h2>
+            <p style="font-size: 1.1em; margin: 20px 0;">An STA acts as the primary technical facilitator for remote depositions, ensuring that all participants can connect and interact without technical friction. Unlike a full-time videographer, an STA is typically assigned when a formal video product is not required but professional technical oversight is still necessary.</p>
+            
+            <div class="info-box">
+                <strong>When You'll Be Assigned as an STA:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>A video product is <strong>NOT</strong> ordered (client receives transcript only)</li>
+                    <li>The job is on <strong>Zoom with the Steno Connect App</strong> AND the attorney hasn't completed a Demo OR has requested assistance</li>
+                    <li>The job is a <strong>hybrid job or has a 3rd party videographer involved</strong></li>
+                </ul>
             </div>
             
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    👥 Participant Assistance
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>⚠️ REA + STA Role:</strong>
+                <p style="margin-top: 10px;">If you're assigned as both REA (Remote Exhibit Assistant) AND STA, you'll stay for the entire deposition. Your responsibilities include showing exhibits and monitoring technical issues throughout, but you do NOT fulfill video job requirements.</p>
+                <p style="margin-top: 10px;"><strong>📌 Last-Minute REA Protocol:</strong> If REA service is added last minute, you MUST message #video-help immediately. In these cases, you must stay for the entire duration of the deposition instead of just the first 15 minutes.</p>
+            </div>
+            
+            <h3 style="margin-top: 30px; color: #2F4A56;">Pre-Job Verification</h3>
+            <div class="info-box">
+                <strong>Before the deposition starts, verify the job type in your Provider Dashboard:</strong>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Location Field:</strong> Check for the label "Hybrid" and a physical conference room address</li>
+                    <li><strong>Attendees Section:</strong> Look for a "Third-Party Videographer (VID)" listed, which confirms a physical room presence</li>
+                    <li><strong>CR Status:</strong> Confirm if the Court Reporter (CR) is listed as in-person or remote</li>
+                </ul>
+            </div>
+            
+            <h3 style="margin-top: 30px; color: #2F4A56;">Your Core Responsibilities</h3>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        🛠️ Technical Support
+                    </div>
+                    <div class="accordion-content">
+                        <p>Address any technical issues as participants join the room. Ensure everyone can hear and see clearly.</p>
+                        <p style="margin-top: 10px;"><strong>Common hybrid issues to monitor:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li><strong>Audio Stability:</strong> Proactively monitor for and resolve audio feedback, echo, or volume problems caused by the room setup</li>
+                            <li><strong>Room Check:</strong> Confirm the attendance and physical readiness of all in-person participants before the record begins</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="accordion-content">
-                    <p>Distribute guest mode invites to all participants and guide them on using the Steno Connect App (SC App) for Zoom and its features.</p>
-                    <p style="margin-top: 10px;"><strong>Be thorough when discussing SC App with the Taking Attorney:</strong></p>
-                    <ul style="margin-top: 5px; margin-left: 20px;">
-                        <li>Ask if they're comfortable using the app</li>
-                        <li>Check if they know how to share exhibits through the app</li>
-                        <li>Offer to walk them through the features if needed</li>
-                        <li>Don't just mention it exists—make sure they're set up for success</li>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        👥 Participant Assistance
+                    </div>
+                    <div class="accordion-content">
+                        <p>Distribute guest mode invites to all participants and guide them on using the Steno Connect App (SC App) for Zoom and its features.</p>
+                        <p style="margin-top: 10px;"><strong>Be thorough when discussing SC App with the Taking Attorney:</strong></p>
+                        <ul style="margin-top: 5px; margin-left: 20px;">
+                            <li>Ask if they're comfortable using the app</li>
+                            <li>Check if they know how to share exhibits through the app</li>
+                            <li>Offer to walk them through the features if needed</li>
+                            <li>Don't just mention it exists—make sure they're set up for success</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        📎 Exhibit Handling
+                    </div>
+                    <div class="accordion-content">
+                        <p>Instruct the Taking Attorney on uploading exhibits to the SC App, provide general recommendations, and pass the deposition over to the CR to initiate proceedings.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        👀 Observation Period
+                    </div>
+                    <div class="accordion-content">
+                        <p>Remain in the deposition for <strong>15 minutes</strong> after the CR begins to monitor for any technical issues.</p>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        🚪 Transitioning Host Role
+                    </div>
+                    <div class="accordion-content">
+                        <p>If no issues arise after 15 minutes, <strong>if applicable</strong>, designate the CR as the host and exit the room. Provide the tech line number: <strong>888.404.0390</strong></p>
+                        <p style="margin-top: 10px;"><strong>Note:</strong> You only need to designate the CR as host if you claimed host earlier. Claim host only if you need to perform admin tasks like renaming guests.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 2: Key Differences -->
+        <div id="differences" class="tab-content">
+            <h2>Key Differences: STA vs Videographer</h2>
+            
+            <div class="comparison">
+                <div class="comparison-card">
+                    <div class="icon">🎥</div>
+                    <h3>Videographer</h3>
+                    <ul>
+                        <li>Produces video recording</li>
+                        <li>Uses AWS/OBS for backup</li>
+                        <li>Reads official read-on</li>
+                        <li>Stays entire deposition</li>
+                        <li>Manages START/STOP workflow</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card">
+                    <div class="icon">📋</div>
+                    <h3>STA (You!)</h3>
+                    <ul>
+                        <li>Provides tech support only</li>
+                        <li>No AWS/OBS backup needed</li>
+                        <li>NO official read-on</li>
+                        <li>Exits after 15 minutes</li>
+                        <li>No START/STOP workflow</li>
                     </ul>
                 </div>
             </div>
             
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    📎 Exhibit Handling
-                </div>
-                <div class="accordion-content">
-                    <p>Instruct the Taking Attorney on uploading exhibits to the SC App, provide general recommendations, and pass the deposition over to the CR to initiate proceedings.</p>
-                </div>
-            </div>
-            
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    👀 Observation Period
-                </div>
-                <div class="accordion-content">
-                    <p>Remain in the deposition for <strong>15 minutes</strong> after the CR begins to monitor for any technical issues.</p>
+            <div class="alert">
+                <div>
+                    <strong>CRITICAL: Recording Management</strong><br>
+                    <strong>If Zoom recording was ON when you joined:</strong> DO NOT turn it off<br>
+                    <strong>If Zoom recording was OFF when you joined:</strong> DO NOT turn it on<br>
+                    The recording is a courtesy for the Court Reporter and will be sent to them post-deposition.
                 </div>
             </div>
             
-            <div class="accordion-item">
-                <div class="accordion-header" onclick="toggleAccordion(this)">
-                    🚪 Transitioning Host Role
+            <div class="info-box">
+                <strong>Timing & Duration:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Join <strong>30 minutes before start time</strong> (same as videographer)</li>
+                    <li>Sessions typically last <strong>45 minutes</strong></li>
+                    <li>You'll exit after <strong>15-minute observation period</strong> (if no issues)</li>
+                </ul>
+            </div>
+            
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>What You WILL Do:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>✓ Read General Recommendations (off the record)</li>
+                    <li>✓ Greet participants and provide tech support</li>
+                    <li>✓ Guide participants through SC App</li>
+                    <li>✓ Monitor for 15 minutes after CR begins</li>
+                </ul>
+                
+                <strong style="display: block; margin-top: 15px;">What You WON'T Do:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>✗ No official read-on</li>
+                    <li>✗ AWS/OBS backup recording</li>
+                    <li>✗ Video production or editing</li>
+                    <li>✗ Stay for entire deposition (unless REA + STA)</li>
+                </ul>
+            </div>
+            
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>Zoom Setup Reminders:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Rename yourself: <strong>"Your Name (Steno Tech Assistant)"</strong></li>
+                    <li><strong>Unless absolutely necessary, do NOT claim Zoom host</strong></li>
+                    <li>Claim host only if you need to perform admin tasks (renaming guests, etc.)</li>
+                    <li>If you need to claim host, use the unique host key from your <strong>Provider Dashboard</strong></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Tab 3: Hybrid Jobs -->
+        <div id="hybrid" class="tab-content">
+            <h2>🏢 Hybrid Job Decision Tree</h2>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">A hybrid deposition includes both in-person and remote attendees. <strong>Click through the options below</strong> to find your exact protocol.</p>
+            
+            <div class="decision-tree" id="hybridTree">
+                <div class="decision-node">
+                    <div class="decision-question">Who is in-person at the deposition location?</div>
+                    <div class="decision-buttons">
+                        <button class="decision-btn" onclick="showSTAScenario('vid-cr')">VID + CR</button>
+                        <button class="decision-btn" onclick="showSTAScenario('vid-only')">VID Only (Remote CR)</button>
+                        <button class="decision-btn" onclick="showSTAScenario('cr-only')">CR Only</button>
+                    </div>
                 </div>
-                <div class="accordion-content">
-                    <p>If no issues arise after 15 minutes, <strong>if applicable</strong>, designate the CR as the host and exit the room. Provide the tech line number: <strong>888.404.0390</strong></p>
-                    <p style="margin-top: 10px;"><strong>Note:</strong> You only need to designate the CR as host if you claimed host earlier. Claim host only if you need to perform admin tasks like renaming guests.</p>
+                
+                <!-- Results -->
+                <div id="sta-vid-cr" class="result-box">
+                    <h3>🎥 In-Person VID + In-Person CR + Remote STA (YOU)</h3>
+                    
+                    <p><strong>1. Room Connection Responsibility:</strong></p>
+                    <p>The in-person videographer is responsible for physically initiating the stream and connecting the physical conference room to the remote session.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>2. The 10-Minute Rule (T-10):</strong></p>
+                    <ul>
+                        <li><strong>If the Court Reporter (CR) is missing:</strong>
+                            <ol style="margin-left: 20px;">
+                                <li>Call the CR directly using the phone number in Provider Dashboard</li>
+                                <li>Leave a voicemail if no answer</li>
+                                <li>Message #video-help</li>
+                            </ol>
+                        </li>
+                        <li style="margin-top: 10px;"><strong>If the Videographer (VID) is missing:</strong>
+                            <p style="margin-left: 20px;"><strong>DO NOT call the videographer.</strong> Message #video-help immediately.</p>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px;"><strong>3. Role During Proceeding:</strong></p>
+                    <p>You are the primary technical facilitator. Troubleshoot the Steno Connect App and remain in the room for a 15-minute observation period after the record begins.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>4. Exit Procedure:</strong></p>
+                    <p>Before leaving, you must:</p>
+                    <ul>
+                        <li>Pass Host privileges to the in-person videographer</li>
+                        <li>Provide the Tech Support line (888.404.0390) in the meeting chat</li>
+                    </ul>
                 </div>
+                
+                <div id="sta-vid-only" class="result-box">
+                    <h3>🎥 In-Person VID + Remote CR + Remote STA (YOU)</h3>
+                    
+                    <p><strong>1. Room Connection Responsibility:</strong></p>
+                    <p>The in-person videographer is responsible for physically initiating the stream and connecting the physical conference room to the remote session.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>2. The 10-Minute Rule (T-10):</strong></p>
+                    <ul>
+                        <li><strong>If the Videographer (VID) is missing:</strong>
+                            <p style="margin-left: 20px;"><strong>DO NOT call the videographer.</strong> Message #video-help immediately so Depo Support can contact the provider.</p>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px;"><strong>3. Role During Proceeding:</strong></p>
+                    <p>You are the primary technical facilitator. Troubleshoot the Steno Connect App and remain in the room for a 15-minute observation period after the record begins.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>4. Exit Procedure:</strong></p>
+                    <p>Before leaving, you must:</p>
+                    <ul>
+                        <li>Pass Host privileges to the in-person videographer</li>
+                        <li>Provide the Tech Support line (888.404.0390) in the meeting chat</li>
+                    </ul>
+                </div>
+                
+                <div id="sta-cr-only" class="result-box">
+                    <h3>📜 In-Person CR + Remote STA (YOU)</h3>
+                    
+                    <p><strong>1. Room Connection Responsibility:</strong></p>
+                    <p>The in-person Court Reporter (CR) is responsible for physically initiating the stream and connecting the conference room to the remote session.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>2. The 10-Minute Rule (T-10):</strong></p>
+                    <ul>
+                        <li><strong>If the in-person Court Reporter (CR) is missing @ T-10:</strong>
+                            <ol style="margin-left: 20px;">
+                                <li>Call the CR's phone number directly (from Provider Dashboard)</li>
+                                <li>Leave a voicemail if there is no answer</li>
+                                <li>Message #video-help in Slack</li>
+                            </ol>
+                        </li>
+                    </ul>
+                    
+                    <p style="margin-top: 15px;"><strong>3. Role During Proceeding:</strong></p>
+                    <p>You are the primary technical facilitator responsible for troubleshooting any and all technical issues (including audio, video, and general connectivity) for all participants. You must remain in the room for a 15-minute observation period once the record begins to ensure technical stability.</p>
+                    
+                    <p style="margin-top: 15px;"><strong>4. Exit Procedure:</strong></p>
+                    <p>Before leaving the session, you must:</p>
+                    <ul>
+                        <li><strong>Transfer Host:</strong> Pass host privileges to the in-person Court Reporter</li>
+                        <li><strong>Provide Tech Line:</strong> Paste the Tech Support number (888.404.0390) into the meeting chat</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="alert" style="margin-top: 30px;">
+                <strong>Remember the 10-Minute Rule:</strong> Always check if in-person participants have connected 10 minutes before the scheduled start time!
+            </div>
+        </div>
+        
+        <!-- Tab 4: Checklist -->
+        <div id="checklist" class="tab-content">
+            <h2>✅ STA Quick Checklist</h2>
+            <p style="font-size: 1.1em; margin-bottom: 20px;">Click each item to check it off as you complete it!</p>
+            
+            <div class="checklist">
+                <h3 style="color: #2F4A56; margin-bottom: 15px;">Before the Deposition</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">Join 30 minutes early</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">Rename yourself: "Your Name (Steno Tech Assistant)"</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">Review job details in Provider Dashboard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">Check Zoom recording status (on/off when you joined)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">If hybrid: Confirm in-person person connected 10 minutes before start</label>
+                </div>
+            </div>
+            
+            <div class="checklist">
+                <h3 style="color: #2F4A56; margin-bottom: 15px;">During Setup</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check6">
+                    <label for="check6">Greet participants warmly as they join</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check7">
+                    <label for="check7">Introduce yourself as the Steno Tech Assistant</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check8">
+                    <label for="check8">Ensure all participants can hear and see clearly</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check9">
+                    <label for="check9">Invite all participants to Steno Connect for Zoom</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check10">
+                    <label for="check10">Read General Recommendations (NO official read-on)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check11">
+                    <label for="check11">Instruct Taking Attorney on exhibit uploading</label>
+                </div>
+            </div>
+            
+            <div class="checklist">
+                <h3 style="color: #2F4A56; margin-bottom: 15px;">During Deposition</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check12">
+                    <label for="check12">Monitor for technical issues for 15 minutes after CR begins</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check13">
+                    <label for="check13">Stay available but remain in background</label>
+                </div>
+            </div>
+            
+            <div class="checklist">
+                <h3 style="color: #2F4A56; margin-bottom: 15px;">When Exiting</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check14">
+                    <label for="check14">After 15 minutes with no issues, designate CR as host</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check15">
+                    <label for="check15">Provide tech line number: 888.404.0390</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check16">
+                    <label for="check16">Exit the room</label>
+                </div>
+            </div>
+            
+            <div class="info-box" style="margin-top: 30px;">
+                <strong>✅ Definition of Success & Exit:</strong>
+                <p style="margin-top: 10px;">A successful STA setup meets these three criteria:</p>
+                <ul style="margin-top: 10px;">
+                    <li>All in-person attendees are signed in and connected to the remote link on time</li>
+                    <li>Audio and video quality are clear throughout the initial 15-minute session</li>
+                    <li>No unresolved technical issues remain when you exit</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Exit Reminder:</strong> Always pass host privileges to the in-person VID (or CR if no VID) and share the tech line: <strong>888.404.0390</strong></p>
             </div>
         </div>
     </div>
     
-    <!-- Tab 2: Key Differences -->
-    <div id="differences" class="tab-content">
-        <h2>Key Differences: STA vs Videographer</h2>
-        
-        <div class="comparison">
-            <div class="comparison-card">
-                <div class="icon">🎥</div>
-                <h3>Videographer</h3>
-                <ul>
-                    <li>Produces video recording</li>
-                    <li>Uses AWS/OBS for backup</li>
-                    <li>Reads official read-on</li>
-                    <li>Stays entire deposition</li>
-                    <li>Manages START/STOP workflow</li>
-                </ul>
-            </div>
+    <script>
+        function openTab(tabName) {
+            const contents = document.getElementsByClassName('tab-content');
+            const buttons = document.getElementsByClassName('tab-button');
             
-            <div class="comparison-card">
-                <div class="icon">📋</div>
-                <h3>STA (You!)</h3>
-                <ul>
-                    <li>Provides tech support only</li>
-                    <li>No AWS/OBS backup needed</li>
-                    <li>NO official read-on</li>
-                    <li>Exits after 15 minutes</li>
-                    <li>No START/STOP workflow</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="alert">
-            <div>
-                <strong>CRITICAL: Recording Management</strong><br>
-                <strong>If Zoom recording was ON when you joined:</strong> DO NOT turn it off<br>
-                <strong>If Zoom recording was OFF when you joined:</strong> DO NOT turn it on<br>
-                The recording is for the Court Reporter's audio, NOT for video production.
-            </div>
-        </div>
-        
-        <div class="info-box">
-            <strong>Timing & Duration:</strong>
-            <ul style="margin-top: 10px;">
-                <li>Join <strong>30 minutes before start time</strong> (same as videographer)</li>
-                <li>Sessions typically last <strong>45 minutes</strong></li>
-                <li>You'll exit after <strong>15-minute observation period</strong> (if no issues)</li>
-            </ul>
-        </div>
-        
-        <div class="info-box" style="margin-top: 20px;">
-            <strong>What You WILL Do:</strong>
-            <ul style="margin-top: 10px;">
-                <li>✓ Read General Recommendations (off the record)</li>
-                <li>✓ Greet participants and provide tech support</li>
-                <li>✓ Guide participants through SC App</li>
-                <li>✓ Monitor for 15 minutes after CR begins</li>
-            </ul>
-            
-            <strong style="display: block; margin-top: 15px;">What You WON'T Do:</strong>
-            <ul style="margin-top: 10px;">
-                <li>✗ No official read-on</li>
-                <li>✗ AWS/OBS backup recording</li>
-                <li>✗ Video production or editing</li>
-                <li>✗ Stay for entire deposition (unless REA + STA)</li>
-            </ul>
-        </div>
-        
-        <div class="info-box" style="margin-top: 20px;">
-            <strong>Zoom Setup Reminders:</strong>
-            <ul style="margin-top: 10px;">
-                <li>Rename yourself: <strong>"Your Name (Steno Tech Assistant)"</strong></li>
-                <li><strong>Unless absolutely necessary, do NOT claim Zoom host</strong></li>
-                <li>Claim host only if you need to perform admin tasks (renaming guests, etc.)</li>
-                <li>If you need to claim host, use the unique host key from your <strong>Provider Dashboard</strong></li>
-            </ul>
-        </div>
-    </div>
-    
-    <!-- Tab 3: Hybrid Jobs -->
-    <div id="hybrid" class="tab-content">
-        <h2>🏢 Hybrid Job Decision Tree</h2>
-        <p style="font-size: 1.1em; margin-bottom: 20px;">A hybrid deposition includes both in-person and remote attendees. <strong>Click through the options below</strong> to find your exact protocol.</p>
-        
-        <div class="decision-tree" id="hybridTree">
-            <div class="decision-node">
-                <div class="decision-question">Who is in-person at the deposition location?</div>
-                <div class="decision-buttons">
-                    <button class="decision-btn" onclick="showSTAScenario('vid-cr')">VID + CR</button>
-                    <button class="decision-btn" onclick="showSTAScenario('vid-only')">VID Only (Remote CR)</button>
-                    <button class="decision-btn" onclick="showSTAScenario('cr-only')">CR Only</button>
-                </div>
-            </div>
-            
-            <!-- Results -->
-            <div id="sta-vid-cr" class="result-box">
-                <h3>🎥 In-Person VID + In-Person CR + Remote STA (YOU)</h3>
-                <p><strong>Who connects the room:</strong> The in-person videographer</p>
-                <ul>
-                    <li><strong>If in-person vid has NOT connected 10 minutes before start:</strong> Alert #video-help immediately</li>
-                    <li>Depo Support will reach out to the in-person vid provider for updates</li>
-                    <li><strong>If you claimed Host:</strong> Pass Host privileges to the In-Person Videographer before exiting</li>
-                </ul>
-                <button class="reset-btn" onclick="resetHybridTree()">Start Over</button>
-            </div>
-            
-            <div id="sta-vid-only" class="result-box">
-                <h3>🎥 In-Person VID + Remote CR + Remote STA (YOU)</h3>
-                <p><strong>Who connects the room:</strong> The in-person videographer</p>
-                <ul>
-                    <li><strong>If in-person vid has NOT connected 10 minutes before start:</strong> Alert #video-help immediately</li>
-                    <li>Depo Support will reach out to the in-person vid provider for updates</li>
-                    <li><strong>If you claimed Host:</strong> Pass Host privileges to the In-Person Videographer before exiting</li>
-                </ul>
-                <button class="reset-btn" onclick="resetHybridTree()">Start Over</button>
-            </div>
-            
-            <div id="sta-cr-only" class="result-box">
-                <h3>📜 In-Person CR + Remote STA (YOU)</h3>
-                <p><strong>Who connects the room:</strong> The in-person Court Reporter</p>
-                <ul>
-                    <li><strong>If in-person CR has NOT connected 10 minutes before start:</strong> Call the in-person CR directly using the phone number in your Provider Dashboard</li>
-                    <li>If you cannot get a direct update from the CR, post to #video-help</li>
-                    <li><strong>If you claimed Host:</strong> Pass Host privileges to the Court Reporter before exiting</li>
-                </ul>
-                <button class="reset-btn" onclick="resetHybridTree()">Start Over</button>
-            </div>
-        </div>
-        
-        <div class="alert" style="margin-top: 30px;">
-            <strong>Remember the 10-Minute Rule:</strong> Always check if in-person participants have connected 10 minutes before the scheduled start time!
-        </div>
-    </div>
-    
-    <!-- Tab 4: Checklist -->
-    <div id="checklist" class="tab-content">
-        <h2>✅ STA Quick Checklist</h2>
-        <p style="font-size: 1.1em; margin-bottom: 20px;">Click each item to check it off as you complete it!</p>
-        
-        <div class="checklist">
-            <h3 style="color: #2F4A56; margin-bottom: 15px;">Before the Deposition</h3>
-            <div class="checklist-item">
-                <input type="checkbox" id="check1">
-                <label for="check1">Join 30 minutes early</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check2">
-                <label for="check2">Rename yourself: "Your Name (Steno Tech Assistant)"</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check3">
-                <label for="check3">Review job details in Provider Dashboard</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check4">
-                <label for="check4">Check Zoom recording status (on/off when you joined)</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check5">
-                <label for="check5">If hybrid: Confirm in-person person connected 10 minutes before start</label>
-            </div>
-        </div>
-        
-        <div class="checklist">
-            <h3 style="color: #2F4A56; margin-bottom: 15px;">During Setup</h3>
-            <div class="checklist-item">
-                <input type="checkbox" id="check6">
-                <label for="check6">Greet participants warmly as they join</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check7">
-                <label for="check7">Introduce yourself as the Steno Tech Assistant</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check8">
-                <label for="check8">Ensure all participants can hear and see clearly</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check9">
-                <label for="check9">Invite all participants to Steno Connect for Zoom</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check10">
-                <label for="check10">Read General Recommendations (NO official read-on)</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check11">
-                <label for="check11">Instruct Taking Attorney on exhibit uploading</label>
-            </div>
-        </div>
-        
-        <div class="checklist">
-            <h3 style="color: #2F4A56; margin-bottom: 15px;">During Deposition</h3>
-            <div class="checklist-item">
-                <input type="checkbox" id="check12">
-                <label for="check12">Monitor for technical issues for 15 minutes after CR begins</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check13">
-                <label for="check13">Stay available but remain in background</label>
-            </div>
-        </div>
-        
-        <div class="checklist">
-            <h3 style="color: #2F4A56; margin-bottom: 15px;">When Exiting</h3>
-            <div class="checklist-item">
-                <input type="checkbox" id="check14">
-                <label for="check14">After 15 minutes with no issues, designate CR as host</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check15">
-                <label for="check15">Provide tech line number: 888.404.0390</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check16">
-                <label for="check16">Exit the room</label>
-            </div>
-        </div>
-        
-        <div class="info-box" style="margin-top: 30px;">
-            <strong>🆘 When to Escalate:</strong>
-            <ul style="margin-top: 10px;">
-                <li><strong>10 minutes before start:</strong> In-person participant hasn't connected in hybrid job → Alert #video-help or call directly</li>
-                <li><strong>Technical issues during observation:</strong> Post to #video-help with Job ID</li>
-                <li><strong>Participant connectivity problems:</strong> Troubleshoot first, escalate if unresolved after 5-10 minutes</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<script>
-    function openTab(tabName) {
-        const contents = document.getElementsByClassName('tab-content');
-        const buttons = document.getElementsByClassName('tab-button');
-        
-        for (let content of contents) {
-            content.classList.remove('active');
-        }
-        
-        for (let button of buttons) {
-            button.classList.remove('active');
-        }
-        
-        document.getElementById(tabName).classList.add('active');
-        event.target.classList.add('active');
-    }
-    
-    function toggleAccordion(element) {
-        element.classList.toggle('active');
-        const content = element.nextElementSibling;
-        content.classList.toggle('active');
-    }
-    
-    function showHybridRole(role) {
-        // Hide all paths and results first
-        hideAllResults();
-    }
-    
-    function showSTAScenario(scenario) {
-        hideAllResults();
-        if (scenario === 'vid-cr') {
-            document.getElementById('sta-vid-cr').classList.add('show');
-        } else if (scenario === 'vid-only') {
-            document.getElementById('sta-vid-only').classList.add('show');
-        } else if (scenario === 'cr-only') {
-            document.getElementById('sta-cr-only').classList.add('show');
-        }
-    }
-    
-    function showVIDScenario(scenario) {
-        // This function is no longer needed but kept for compatibility
-        hideAllResults();
-    }
-    
-    function hideAllResults() {
-        const results = ['sta-vid-cr', 'sta-vid-only', 'sta-cr-only'];
-        results.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.classList.remove('show');
+            for (let content of contents) {
+                content.classList.remove('active');
             }
-        });
-    }
-    
-    function resetHybridTree() {
-        hideAllResults();
-    }
-</script>
-</body> </html>
+            
+            for (let button of buttons) {
+                button.classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function toggleAccordion(element) {
+            element.classList.toggle('active');
+            const content = element.nextElementSibling;
+            content.classList.toggle('active');
+        }
+        
+        function showHybridRole(role) {
+            // Hide all paths and results first
+            hideAllResults();
+        }
+        
+        function showSTAScenario(scenario) {
+            hideAllResults();
+            if (scenario === 'vid-cr') {
+                document.getElementById('sta-vid-cr').classList.add('show');
+            } else if (scenario === 'vid-only') {
+                document.getElementById('sta-vid-only').classList.add('show');
+            } else if (scenario === 'cr-only') {
+                document.getElementById('sta-cr-only').classList.add('show');
+            }
+        }
+        
+        function showVIDScenario(scenario) {
+            // This function is no longer needed but kept for compatibility
+            hideAllResults();
+        }
+        
+        function hideAllResults() {
+            const results = ['sta-vid-cr', 'sta-vid-only', 'sta-cr-only'];
+            results.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.remove('show');
+                }
+            });
+        }
+        
+        function resetHybridTree() {
+            hideAllResults();
+        }
+    </script>
+</body>
+</html>
